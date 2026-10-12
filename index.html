@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projektkarta I:</title>
+<meta name="description" content="Projektkarta över allt Stefan byggt på I:-disken: Ombra Prime-världen, Verkstaden, Unreal-projekten, lokala AI-motorer, agenter och arkiv, med status och datum.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Projektkarta I:">
+<meta property="og:description" content="Projektkarta över allt Stefan byggt på I:-disken: Ombra Prime-världen, Verkstaden, Unreal-projekten, lokala AI-motorer, agenter och arkiv, med status och datum.">
+<meta property="og:url" content="http://ombraprime.com/projektkarta/">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: ett skeppsmanifest. Lägesrapport överst, sedan ett "däck" per område med projekten som rader, och sist lastrummet (lagring). */
+:root {
+  --bg: #eef1f3;
+  --yta: #ffffff;
+  --yta2: #e3e8ec;
+  --text: #17222b;
+  --dampad: #56636e;
+  --linje: #cdd5dc;
+  --accent: #0f7d86;
+  --accent-svag: #d5ecee;
+  --aktiv: #23854a;   --aktiv-bg: #dcf1e3;
+  --pausad: #a8650c;  --pausad-bg: #f8ead2;
+  --klar: #2a5fb0;    --klar-bg: #dde7f7;
+  --plan: #7a4bb0;    --plan-bg: #ece2f7;
+  --lager: #5d6872;   --lager-bg: #e4e8ec;
+  --stopp: #b0403a;   --stopp-bg: #f6dfdd;
+  --display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --brod: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1519; --yta: #152027; --yta2: #1c2a33; --text: #e3ebef; --dampad: #93a3ad; --linje: #27363f;
+    --accent: #4fc9d2; --accent-svag: #12343a;
+    --aktiv: #5fd08a; --aktiv-bg: #133524; --pausad: #f0b45a; --pausad-bg: #3a2a12;
+    --klar: #7fa9f0; --klar-bg: #182a47; --plan: #bb93ee; --plan-bg: #2c1f42;
+    --lager: #a3b0ba; --lager-bg: #23313a; --stopp: #ef8a82; --stopp-bg: #3f1d1b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1519; --yta: #152027; --yta2: #1c2a33; --text: #e3ebef; --dampad: #93a3ad; --linje: #27363f;
+  --accent: #4fc9d2; --accent-svag: #12343a;
+  --aktiv: #5fd08a; --aktiv-bg: #133524; --pausad: #f0b45a; --pausad-bg: #3a2a12;
+  --klar: #7fa9f0; --klar-bg: #182a47; --plan: #bb93ee; --plan-bg: #2c1f42;
+  --lager: #a3b0ba; --lager-bg: #23313a; --stopp: #ef8a82; --stopp-bg: #3f1d1b;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font: 15px/1.55 var(--brod); }
+.sida { max-width: 1080px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; display: grid; gap: 28px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: .01em; }
+.mono { font-family: var(--mono); }
+.etikett { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--dampad); }
+
+/* Huvud */
+header { display: grid; gap: 14px; }
+header h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.05; }
+header h1 span { color: var(--accent); }
+.ingress { max-width: 68ch; color: var(--dampad); margin: 0; font-size: 16px; }
+.siffror { display: flex; flex-wrap: wrap; gap: 10px; }
+.siffra { background: var(--yta); border: 1px solid var(--linje); border-radius: 8px; padding: 8px 14px; display: grid; min-width: 0; }
+.siffra b { font-family: var(--display); font-size: 22px; font-variant-numeric: tabular-nums; line-height: 1.2; }
+
+/* Läget nu */
+.laget { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.ruta { background: var(--yta); border: 1px solid var(--linje); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.ruta h2 { font-size: 17px; display: flex; gap: 8px; align-items: center; }
+.ruta ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.ruta li { display: grid; gap: 1px; }
+.ruta li b { font-weight: 600; }
+.ruta li span { color: var(--dampad); font-size: 13.5px; }
+.ruta.varning { border-color: var(--pausad); }
+.prick { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+
+/* Filter */
+.filter { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-bottom: 1px solid var(--linje); }
+.filter input { flex: 1 1 220px; min-width: 0; font: inherit; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--linje); background: var(--yta); color: var(--text); }
+.filter input:focus-visible, .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chip { font: 500 13px var(--brod); padding: 6px 12px; border-radius: 99px; border: 1px solid var(--linje); background: var(--yta); color: var(--text); cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.chip[aria-pressed="true"] { background: var(--accent-svag); border-color: var(--accent); color: var(--text); }
+.chip .antal { font-family: var(--mono); font-size: 11.5px; color: var(--dampad); }
+
+/* Däck */
+.dack { display: grid; gap: 12px; }
+.dack-huvud { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; border-bottom: 2px solid var(--text); padding-bottom: 6px; }
+.dack-huvud h2 { font-size: 22px; }
+.dack-huvud .etikett { margin-left: auto; }
+.dack-text { margin: 0; color: var(--dampad); max-width: 75ch; }
+.rader { display: grid; gap: 8px; }
+.rad { background: var(--yta); border: 1px solid var(--linje); border-left: 4px solid var(--statusfarg, var(--lager)); border-radius: 8px; padding: 12px 16px; display: grid; gap: 6px; min-width: 0; }
+.rad.under { margin-left: 22px; padding-block: 10px; }
+.rad-topp { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+.rad-topp h3 { font-size: 16.5px; }
+.rad-topp .datum { margin-left: auto; font-family: var(--mono); font-size: 12.5px; color: var(--dampad); font-variant-numeric: tabular-nums; }
+.status { font: 600 11.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 4px; color: var(--statusfarg); background: var(--statusbg); }
+.rad p { margin: 0; max-width: 80ch; }
+.vag { font-family: var(--mono); font-size: 12.5px; color: var(--dampad); overflow-wrap: anywhere; }
+.taggar { display: flex; flex-wrap: wrap; gap: 6px; }
+.tagg { font-size: 12px; padding: 1px 8px; border-radius: 4px; background: var(--yta2); color: var(--text); }
+.filer { font-size: 13px; color: var(--dampad); overflow-wrap: anywhere; }
+.filer code { font-family: var(--mono); font-size: 12.5px; color: var(--text); }
+.rad a { color: var(--accent); }
+
+[data-s="aktiv"] { --statusfarg: var(--aktiv); --statusbg: var(--aktiv-bg); }
+[data-s="pausad"] { --statusfarg: var(--pausad); --statusbg: var(--pausad-bg); }
+[data-s="klar"] { --statusfarg: var(--klar); --statusbg: var(--klar-bg); }
+[data-s="plan"] { --statusfarg: var(--plan); --statusbg: var(--plan-bg); }
+[data-s="lager"] { --statusfarg: var(--lager); --statusbg: var(--lager-bg); }
+[data-s="stopp"] { --statusfarg: var(--stopp); --statusbg: var(--stopp-bg); }
+
+/* Lastrummet */
+.last { display: grid; gap: 8px; }
+.stapelrad { display: grid; grid-template-columns: minmax(120px, 210px) 1fr 70px; gap: 12px; align-items: center; }
+.stapelrad .namn { font-size: 13.5px; overflow-wrap: anywhere; }
+.stapelrad .spar { height: 14px; background: var(--yta2); border-radius: 3px; overflow: hidden; }
+.stapelrad .fyll { height: 100%; background: var(--accent); border-radius: 3px; }
+.stapelrad .gb { font-family: var(--mono); font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
+.tom { color: var(--dampad); font-style: italic; }
+footer { color: var(--dampad); font-size: 13px; border-top: 1px solid var(--linje); padding-top: 14px; }
+
+@media (max-width: 560px) {
+  .rad.under { margin-left: 10px; }
+  .stapelrad { grid-template-columns: 1fr 64px; }
+  .stapelrad .spar { grid-column: 1 / -1; order: 3; }
+  .dack-huvud .etikett { margin-left: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: no-preference) { .chip, .rad { transition: background-color .15s, border-color .15s; } }
+body { margin: 0; }
+img { max-width: 100%; }
+</style>
+</head>
+<body>
+<div class="sida">
+  <header>
+    <div class="etikett">Manifest · disk I: · inventerad 12 oktober 2026</div>
+    <h1>Projektkarta <span>I:</span></h1>
+    <p class="ingress">Allt som byggts på I:-disken, sorterat efter område. Det mesta hänger ihop kring Ombra Prime: simulatorn skriver världen, verkstaden bygger den i 3D, Unreal filmar den och de lokala AI-motorerna gör bilder, video, musik och röster. Status och datum kommer från filerna själva (DEVLOG, TODO och senast ändrade fil).</p>
+    <div class="siffror" id="siffror"></div>
+  </header>
+
+  <section class="laget" aria-label="Läget just nu">
+    <div class="ruta">
+      <h2><span class="prick" style="background:var(--aktiv)"></span>Pågår nu</h2>
+      <ul>
+        <li><b>Prisma</b><span>Discord-medlaren, byggd i dag. Fungerar i Discord.</span></li>
+        <li><b>Kontaktmotorn och Lisas möbler</b><span>Verkstaden, ändrad senast 11 okt. Det tyngsta pågående arbetet.</span></li>
+        <li><b>LA-modulen, paneler och Vitaliskort</b><span>Verkstad + Unreal (OP_Film_00, OP_Paneler_00), 10–11 okt.</span></li>
+        <li><b>OmbraPrimeSimulator</b><span>DEVLOG 10 okt. LA-modulen i kanon ska matcha filmen.</span></li>
+      </ul>
+    </div>
+    <div class="ruta">
+      <h2><span class="prick" style="background:var(--pausad)"></span>Pausat, väntar på dig</h2>
+      <ul>
+        <li><b>Nexus</b><span>Fungerande MVP sedan 6 okt. Kvar: fler maskiner, debattläge, jobbtavla och iPad.</span></li>
+        <li><b>Podden (OmbraPodcast)</b><span>Ljud och mocap klart till test 1. Animation pågår via kontaktmotorn.</span></li>
+        <li><b>Viskleken</b><span>Forskningstestet står still sedan 29 aug. Nästa steg: urvalsfiltret.</span></li>
+        <li><b>LTX lokalt</b><span>Nya LTX-2.5-vikter hämtade 2 okt, men inga nya klipp sedan juli.</span></li>
+      </ul>
+    </div>
+    <div class="ruta varning">
+      <h2><span class="prick" style="background:var(--pausad)"></span>Värt att se över</h2>
+      <ul>
+        <li><b>Portkrock på 8193</b><span>Både ComfyUI-QwenImage och llama.cpp använder port 8193.</span></li>
+        <li><b>QwenImage saknar MCP-server</b><span>Den mest använda bildmotorn finns inte i <span class="mono">.mcp.json</span>.</span></li>
+        <li><b>Prisma och Nexus saknar versionshantering</b><span>Lägg till git så att ändringar går att följa och backa.</span></li>
+        <li><b>Hub verkar ha gått upp i Nexus</b><span>Planen kan arkiveras eller slås ihop med Nexus TODO.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="filter" role="search">
+    <label class="etikett" for="sok" style="flex-basis:100%">Filtrera</label>
+    <input id="sok" type="search" placeholder="Sök projekt, teknik eller sökväg …" autocomplete="off">
+    <div id="chips" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+  </div>
+
+  <main id="dack" style="display:grid;gap:34px"></main>
+
+  <section class="dack" aria-labelledby="last-rubrik">
+    <div class="dack-huvud"><h2 id="last-rubrik">Lastrummet</h2><span class="etikett">Det som tar mest plats</span></div>
+    <p class="dack-text">Uppmätta storlekar. Unreal Engine-installationerna och ComfyUI-mapparnas modeller hann inte mätas, men READMEs anger 13–80 GB per ComfyUI-backend.</p>
+    <div class="last" id="last"></div>
+  </section>
+
+  <footer>Inventerat av Claude den 12 oktober 2026 genom att läsa README-, DEVLOG- och TODO-filer och mapplistningar. Inga hemliga filer eller nycklar har öppnats. Kartan uppdateras när en ny inventering görs.</footer>
+</div>
+
+<script>
+const STATUS = {
+  aktiv:  { namn: "Aktiv" },
+  pausad: { namn: "Pausad" },
+  klar:   { namn: "Klar / live" },
+  plan:   { namn: "Plan" },
+  lager:  { namn: "Lager / verktyg" },
+  stopp:  { namn: "Övergiven" },
+};
+
+const DACK = [
+  { id: "ombra", namn: "Ombra Prime-världen", etikett: "Kanon · media · backup",
+    text: "Världen själv: ett moderskepp på 16,9 km med cirka 100 000 kolonister, styrt av AI:n Oris. Här finns simulatorn som skriver världen och det som produceras i den." },
+  { id: "verkstad", namn: "Verkstaden", etikett: "I:\\Verkstad",
+    text: "Kedjan från idé till Unreal: prata, skissa, bild, 3D, Blender och Unreal. Varje delprojekt har mapparna bilder, 3d, blender och unreal." },
+  { id: "unreal", namn: "Unreal-projekt", etikett: "UE 5.6.1 · 5.7.4 · 5.8.3",
+    text: "Projekten under I:\\Unreal Engine\\Projects. De mest aktiva hör ihop med Verkstaden och Ombra Media." },
+  { id: "ai", namn: "Lokala AI-motorer", etikett: "RTX 3090 · 24 GB",
+    text: "Egen generering på datorn: video, bild, musik, röst och språkmodeller, med en port och en MCP-server per motor så att agenter kan använda dem." },
+  { id: "agent", namn: "Agenter och samtal", etikett: "Claude · MiniMax · Qwen",
+    text: "Sätt att prata med och genom AI: röst, Discord, ett nav för alla agenter och experiment med små modeller." },
+  { id: "arkiv", namn: "Lager, verktyg och arkiv", etikett: "Inga aktiva projekt",
+    text: "Asset-bibliotek, cachar, inspelningar och gamla nedladdningar." },
+];
+
+const P = [
+  // Ombra Prime-världen
+  { d: "ombra", namn: "OmbraPrimeSimulator", vag: "I:\\OmbraPrimeSimulator", s: "aktiv", datum: "2026-10-10",
+    text: "Självgenererande värld. Riktiga sensorer i hemmet (elmätare, nätverk, partikelsensor och Sense HAT på Raspberry Pi) driver händelser på skeppet i kedjan signal → omen → Director → Chronicler → Keeper, som skriver till kanon. Ger radiosändningar, romankapitel och material till serien. 247 kanonfiler och 134 krönikor.",
+    tek: ["Python", "PyYAML", "SQLite", "Raspberry Pi", "MQTT", "piper-tts", "ElevenLabs"],
+    filer: ["AI-ORIENTERING.md (läs först)", "TODO.md", "DEVLOG.md", "Ombra.pyw"], extra: "git: steffost/OmbraPrimeSimulator, gren engelska · 5,9 GB" },
+  { d: "ombra", namn: "Ombra Media", vag: "I:\\Ombra Media", s: "aktiv", datum: "2026-10-05",
+    text: "Utdata från mediekedjan: Cap1 Showcase (36 s produktfilm), Mara Rox som cyan hologram, ett Lisa-hologramtest, korridorljud, musikvideon ”Skrovet sjunger” och podden med Lisa och Mara (TTS per replik, mocap-jämförelser, Cascadeur-övningar).",
+    tek: ["ElevenLabs", "HeyGen", "Cascadeur", "Unreal MRQ", "ffmpeg", "Python"],
+    filer: ["Mara Holo\\README.md", "Cap1 Showcase\\README.md", "Podcast\\pod_tts.py"] },
+  { d: "ombra", namn: "OmbraPrimeVarlden", vag: "I:\\OmbraPrimeVarlden", s: "klar", datum: "2026-08-18",
+    text: "En sida som förklarar världen för nya och länkar vidare till simulatorn.",
+    tek: ["HTML", "GitHub Pages"], filer: ["index.html", "README.md"],
+    lank: "https://ombraprime.com/ombra-prime-varlden/" },
+  { d: "ombra", namn: "Ombra Prime 2026", vag: "I:\\Ombra Prime 2026", s: "lager", datum: "2026-08-10",
+    text: "Biblioteket från den tidiga fasen: konceptbilder, FBX (Oris-stationen, kontrollpanel), Live Link Face-tagningar, Lisas röstinspelningar och OWL-livestreamverktyget för UE 5.6.",
+    tek: ["Gemini", "FBX", "OWL"], extra: "5,4 GB" },
+  { d: "ombra", namn: "OmbraPrime-BACKUP-svenska-20260830", vag: "I:\\OmbraPrime-BACKUP-svenska-20260830", s: "lager", datum: "2026-08-30",
+    text: "Hel kopia av simulatorn före bytet till engelska. Kan återställas genom att kopieras tillbaka.", extra: "43 MB" },
+  { d: "ombra", namn: "canon-svenska-backup-20260829", vag: "I:\\canon-svenska-backup-20260829", s: "lager", datum: "2026-08-29",
+    text: "Kopia av bara kanon på svenska, inklusive världsbibelns ursprungliga XML.", extra: "2,2 MB" },
+
+  // Verkstaden
+  { d: "verkstad", namn: "Verkstad", vag: "I:\\Verkstad", s: "aktiv", datum: "2026-10-11",
+    text: "Stefans och Claudes produktionskedja: prata (ClaudeTal) → skissa (Krita) → bild (Qwen eller MiniMax) → 3D (Tripo via fal.ai) → Blender → Unreal. Här finns också animationsflödet med kontaktmotorn och Cascadeur. status.py visar vilka verktyg som är igång.",
+    tek: ["Python", "Blender 5.2", "Unreal 5.8", "fal.ai Tripo P2", "Kling 3.0", "MiniMax", "LTX", "ComfyUI", "Cascadeur"],
+    filer: ["README.md", "DEVLOG.md", "ANIMATIONSFLODE.md", "status.py"], extra: "14 GB" },
+  { d: "verkstad", under: true, namn: "lisa-mobler · kontaktmotorn", vag: "projekt\\2026-10-02_lisa-mobler", s: "aktiv", datum: "2026-10-11",
+    text: "Lisas möbler och kontaktmotorn: Blender-lösare som gör att händer, fingrar, fötter och kropp vilar rätt mot möblerna utan att sjunka in eller sväva.",
+    tek: ["Blender", "FBX", "LTX"], extra: "13 GB, 1 854 filer" },
+  { d: "verkstad", under: true, namn: "la-flode · LA-modulen", vag: "projekt\\2026-10-08_la-flode", s: "aktiv", datum: "2026-10-11",
+    text: "Animerat 3D-flödesdiagram över LA-modulen (Levitas Aequilibrium) med myntsymboler, lysande länkrör och väggtext. Renderas i OP_Film_00 med Niagara.",
+    tek: ["Blender", "Unreal", "Niagara"] },
+  { d: "verkstad", under: true, namn: "vitaliskort", vag: "projekt\\2026-10-10_vitaliskort", s: "aktiv", datum: "2026-10-11",
+    text: "Vitalis-kretskort A och B: hard surface-komponenter plus organiska Tripo-delar som ett hjärta och en sporkapsel. Kit för att bygga varianter, BP_Vitaliskort i Unreal.",
+    tek: ["Blender", "Tripo", "Unreal"] },
+  { d: "verkstad", under: true, namn: "paneler", vag: "projekt\\2026-10-10_paneler", s: "aktiv", datum: "2026-10-10",
+    text: "Modulära väggpaneler för Ombra, ett byggsats-kit och dekaler för OP_Paneler_00.",
+    tek: ["Blender", "Unreal"] },
+  { d: "verkstad", under: true, namn: "podd-dummy", vag: "projekt\\2026-10-01_podd-dummy", s: "klar", datum: "2026-10-02",
+    text: "AI-video av en fast ”dummy” som mocap-källa. Jämförelse mellan MiniMax H3 Max, Kling 3.0 och LTX 2.5.",
+    tek: ["MiniMax H3", "Kling", "LTX"] },
+  { d: "verkstad", under: true, namn: "lisas-studio", vag: "projekt\\2026-09-30_lisas-studio", s: "pausad", datum: "2026-09-30",
+    text: "Blockout av Lisa Lusis nattliga poddstudio: 366 hard surface-objekt byggda med Python i Blender, plus skript som bygger scenen i Unreal.",
+    tek: ["Blender", "Unreal"] },
+  { d: "verkstad", under: true, namn: "uppfinnare", vag: "projekt\\2026-09-27_uppfinnare", s: "klar", datum: "2026-09-27",
+    text: "Första hela testet av kedjan: Krita-skiss av en uppfinnare → Qwen-bild → Tripo-modell → riggad i Blender.",
+    tek: ["Krita", "Qwen", "Tripo", "Blender"] },
+  { d: "verkstad", under: true, namn: "Webb: kontaktmotorn", vag: "webb\\kontaktmotorn", s: "klar", datum: "2026-10-11",
+    text: "Sida som förklarar animationskedjan steg för steg (version 15).", tek: ["GitHub Pages"],
+    lank: "http://ombraprime.com/kontaktmotorn/" },
+  { d: "verkstad", under: true, namn: "Webb: la-modulen", vag: "webb\\la-modulen", s: "klar", datum: "2026-10-10",
+    text: "Oris förklarar LA-modulen med en Unreal-renderad film (2:55) och en graf synkad till rösten.", tek: ["GitHub Pages", "Unreal"],
+    lank: "http://ombraprime.com/la-modulen/" },
+  { d: "verkstad", under: true, namn: "Webb: unreal-verkstaden", vag: "webb\\unreal-verkstaden", s: "klar", datum: "2026-10-11",
+    text: "Översiktssida över Unreal-projekten.", tek: ["GitHub Pages"] },
+
+  // Unreal
+  { d: "unreal", namn: "OmbraPodcast", vag: "I:\\Unreal Engine\\Projects\\OmbraPodcast", s: "aktiv", datum: "2026-10-07",
+    text: "MetaHuman-podden med Lisa och Mara i UE 5.8. Kroppsanimation via Cascadeur Live Link och kontaktmotorn.",
+    tek: ["UE 5.8", "MetaHuman", "Cascadeur"] },
+  { d: "unreal", namn: "OP_Film_00", vag: "I:\\Unreal Engine\\Projects\\OP_Film_00", s: "aktiv", datum: "2026-10-10",
+    text: "Filmen om LA-modulen med Niagara-effekter. Renderad och publicerad på la-modulen-sidan.",
+    tek: ["Unreal", "Niagara", "Sequencer"] },
+  { d: "unreal", namn: "OP_Paneler_00", vag: "I:\\Unreal Engine\\Projects\\OP_Paneler_00", s: "aktiv", datum: "2026-10-10",
+    text: "Panelkit och BP_Vitaliskort från Verkstaden.", tek: ["Unreal", "Blueprint"] },
+  { d: "unreal", namn: "McpTeest", vag: "I:\\Unreal Engine\\Projects\\McpTeest", s: "aktiv", datum: "2026-10-10",
+    text: "Kartorna Cap_1 och Cap_1_Holo: Cap1 Showcase-filmen och Mara-hologrammet. Styrs via UnrealMCP.",
+    tek: ["Unreal", "UnrealMCP", "MRQ"] },
+  { d: "unreal", namn: "OmbraPrime_Showcase och GameAnimationSample", vag: "I:\\Unreal Engine\\Projects", s: "pausad", datum: "2026-10-07",
+    text: "Showcase-projektet och Epics animationsexempel för UE 5.8.", tek: ["Unreal"] },
+  { d: "unreal", namn: "Labb och mallar", vag: "I:\\Unreal Engine\\Projects", s: "lager", datum: "",
+    text: "McpTeest2, McpTeest3, MetahumanAnimationTool, Ombra_Core, Ombra_Lab_00, Ombra_Lab_01, OP_AssetPlugin_00, OP_Templet_00, Submat_00 och ue58_test. En äldre kopia av MetahumanAnimationTool ligger i Projects_00.",
+    tek: ["Unreal"] },
+
+  // Lokala AI-motorer
+  { d: "ai", namn: "Local AI", vag: "I:\\Local AI", s: "aktiv", datum: "2026-10-10",
+    text: "Navet för lokal generering. Separata ComfyUI-backends utan gränssnitt, var och en med egen venv, port och MCP-server. CLAUDE.md och AGENTS.md förklarar för agenter hur de används.",
+    tek: ["ComfyUI", "MCP", "Python"], filer: ["CLAUDE.md", ".mcp.json"] },
+  { d: "ai", under: true, namn: "ComfyUI-QwenImage · port 8193", vag: "Local AI\\ComfyUI-QwenImage", s: "aktiv", datum: "2026-10-10",
+    text: "Qwen-Image 2.1 och 2512 (2512 får användas kommersiellt). Mest använd just nu, men saknar MCP-server.",
+    tek: ["Qwen-Image", "ComfyUI 0.37"], filer: ["qwen_core.py"] },
+  { d: "ai", under: true, namn: "ComfyUI-Music3 · port 8192", vag: "Local AI\\ComfyUI-Music3", s: "aktiv", datum: "2026-09-27",
+    text: "MiniMax Music 3: text och sångtext blir en hel låt. MCP, Gradio-gränssnitt och CLI.",
+    tek: ["MiniMax Music 3", "Gradio"], filer: ["Starta Musikgenerator.bat"] },
+  { d: "ai", under: true, namn: "ComfyUI-Headless · port 8189", vag: "Local AI\\ComfyUI-Headless", s: "klar", datum: "2026-08-08",
+    text: "MiniMax H3: text, bild eller första och sista bildruta blir video med stereoljud. Uppskalning och RIFE-interpolering.",
+    tek: ["MiniMax H3", "Qwen3-VL"] },
+  { d: "ai", under: true, namn: "ComfyUI-IDV2V · port 8190", vag: "Local AI\\ComfyUI-IDV2V", s: "pausad", datum: "2026-08-09",
+    text: "ID-V2V stylar om en video men behåller personens identitet. v1 (ljussättning) validerad. Kvar: scenbyte med SAM3 och längre klipp.",
+    tek: ["ID-V2V", "Kijai-fork"] },
+  { d: "ai", under: true, namn: "ComfyUI-Flux2 · port 8191", vag: "Local AI\\ComfyUI-Flux2", s: "klar", datum: "2026-08-09",
+    text: "Flux.2 [dev] för bilder (GGUF Q4_K_M). Endast icke-kommersiellt.", tek: ["Flux.2", "GGUF"] },
+  { d: "ai", under: true, namn: "llama.cpp · port 8193", vag: "Local AI\\llama.cpp", s: "klar", datum: "2026-08-14",
+    text: "Qwen3.8-27B som OpenAI-kompatibelt API plus Gradio-chatt. Krockar med QwenImage på port 8193.",
+    tek: ["llama.cpp", "Qwen3.8-27B"], filer: ["Starta Chat.bat"] },
+  { d: "ai", under: true, namn: "My_Models", vag: "Local AI\\My_Models", s: "lager", datum: "2026-08-15",
+    text: "Modellagret: Ollama (bland annat qwen3.8-27b, qwen35-film, gemma4, glm-4.7-flash), Hermes-4-70B för LM Studio och Piper-röster.",
+    tek: ["Ollama", "LM Studio", "Piper"], extra: "191 GB" },
+  { d: "ai", under: true, namn: "laya", vag: "Local AI\\laya", s: "klar", datum: "2026-09-24",
+    text: "Snabbtest av beslutsmodellen Laya mot simulatorns sensorströmmar och mot dubblettnamn i kanon.", tek: ["Laya", "Python"] },
+  { d: "ai", namn: "LTX Local AI Movie", vag: "I:\\LTX Local AI Movie", s: "pausad", datum: "2026-10-02",
+    text: "LTX Desktop med LTX-2.5-vikter och Z-Image-Turbo. Klipp från april till juli. Appen och vikterna uppdaterades 2 okt.",
+    tek: ["LTX-2.5", "LTX Desktop"], extra: "75 GB modeller" },
+  { d: "ai", namn: "Pinokio", vag: "I:\\Pinokio", s: "lager", datum: "2026-09-27",
+    text: "AI-appstartaren med ComfyUI, Open WebUI och XTTS-röst. Apparna har legat orörda sedan november 2025.",
+    tek: ["ComfyUI", "Open WebUI", "XTTS"], extra: "120 GB" },
+  { d: "ai", namn: "AI_Voice_Test", vag: "I:\\AI_Voice_Test", s: "stopp", datum: "2026-04-16",
+    text: "Test av Kyutai Moshi (realtidsröst). Kraschade vid uppstart eftersom Triton saknas på Windows. Venv:en på flera GB kan rensas.",
+    tek: ["Moshi", "PyTorch"] },
+
+  // Agenter och samtal
+  { d: "agent", namn: "Prisma", vag: "I:\\ClaudeStuff\\discord-medlare", s: "aktiv", datum: "2026-10-12",
+    text: "Discord-medlare. /prisma går igenom samtalet med text, bild och uppläsning, och man kan prata med henne med @Prisma. Hon läser filer och äldre samtal, gör HTML-minnessidor och följer principen sanningen först.",
+    tek: ["Python", "discord.py", "MiniMax-M3", "Claude", "image-01", "speech-2.8-hd"],
+    filer: ["README.md", "INSTRUKTIONSBOK.md", "DEVLOG.md", "TODO.md"] },
+  { d: "agent", namn: "ClaudeTal", vag: "I:\\ClaudeTal", s: "aktiv", datum: "2026-09-30",
+    text: "Röstsamtal med Claude Code. Du pratar svenska, KB-Whisper skriver av och klistrar in i Claude, och svaren läses upp med en MiniMax-röst (Bengt som reserv). Används fortfarande via hooks.",
+    tek: ["faster-whisper", "KB-Whisper", "Silero VAD", "MiniMax TTS", "Claude Code hooks"],
+    filer: ["DEVLOG.md", "lyssna.py", "tala.py", "starta_lyssna.cmd"], extra: "kod 30 sep, hooks i bruk i dag" },
+  { d: "agent", namn: "Nexus", vag: "I:\\Nexus", s: "pausad", datum: "2026-10-06",
+    text: "Ett nav som samlar alla agenter på alla datorer: klusterkarta, chattar, möten med @namn, aktivitetsflöde och en gemensam canvas per rum. Bara via Tailscale.",
+    tek: ["Node", "WebSocket", "SQLite", "Tailscale", "Claude Code", "MiniMax", "Qwen"],
+    filer: ["INSTRUKTIONER.md", "DEVLOG.md", "TODO.md", "start-nexus.cmd"] },
+  { d: "agent", namn: "Hub", vag: "I:\\Hub", s: "plan", datum: "2026-10-04",
+    text: "Plan för ett delat realtidsrum för människor och agenter, med chatt, filer och canvas. Inget byggt. Nexus TODO säger att Hub ska byggas på Nexus kärna.",
+    tek: ["Node", "React", "tldraw"], filer: ["PLAN.md"] },
+  { d: "agent", namn: "Viskleken", vag: "I:\\Viskleken", s: "pausad", datum: "2026-08-29",
+    text: "Forskningstest: kan små modellers självsäkra feltolkningar bli kreativt brus som en större modell bygger vidare på, för att göra simulatorn mindre förutsägbar? En regissör (MiniMax-M3) och skådespelare (lokal qwen35-film) spelar upp scener.",
+    tek: ["Python", "Ollama", "MiniMax-M3"], filer: ["ARBETSSÄTT.md (läs först)", "LÄSMIG.md", "TODO.md"] },
+  { d: "agent", namn: "Minimax (arbetsyta)", vag: "I:\\Minimax", s: "lager", datum: "2026-08-10",
+    text: "Projekt från MiniMax-appen: slapstick-videor, Lisa-intervjuer, en röst och en kopia av världsbibeln v7.0.",
+    tek: ["MiniMax-appen"], extra: "635 MB" },
+
+  // Arkiv
+  { d: "arkiv", namn: "UnrealVaultCache", vag: "I:\\UnrealVaultCache", s: "lager", datum: "2026-10-07",
+    text: "Epic Launcher- och Fab-cache med 146 asset-paket: MetaHuman, CitySampleBuildings, SubstrateMaterials, sci-fi-interiörer, UltraDynamicSky och fler.",
+    extra: "364,5 GB" },
+  { d: "arkiv", namn: "Unreal Engine (installationer)", vag: "I:\\Unreal Engine", s: "lager", datum: "2026-10-05",
+    text: "UE 5.6.1 (med Samples), 5.7.4 och 5.8.3, plus nedladdningsmapparna FabAssets och FabLibrary. Projekten finns under Unreal-projekt ovan." },
+  { d: "arkiv", namn: "OBS Recordings", vag: "I:\\OBS Recordings", s: "lager", datum: "2026-10-03",
+    text: "107 skärminspelningar från maj till oktober, flest i september, plus mappen ”vägverksshit”.", extra: "42,6 GB" },
+  { d: "arkiv", namn: "Kitbash3DCargo", vag: "I:\\Kitbash3DCargo", s: "lager", datum: "2026-09-03",
+    text: "Fyra Kitbash3D-kit: Adventure Starter Kit, Brutalist, Mission to Minerva och Neo Tokyo.", extra: "11,5 GB" },
+  { d: "arkiv", namn: "download backups", vag: "I:\\download backups", s: "lager", datum: "2026-06-01",
+    text: "Säkerhetskopia av en gammal Downloads-mapp (2021–2026): installationsfiler, AI-bilder och -video, ljud och en Ubuntu-ISO. Fryst sedan 1 juni.",
+    extra: "81,4 GB" },
+  { d: "arkiv", namn: "Skrivbordsmappar", vag: "I:\\Skrivbordsmappar", s: "lager", datum: "2026-04-09",
+    text: "Arkiv med AI-bokmärken och referenser: AI-appar 2025–2026, Veo, LTX, ett ComfyUI-arbetsflöde, infografik och små Gemini Canvas-verktyg.",
+    extra: "0,2 GB" },
+  { d: "arkiv", namn: "RamMine", vag: "I:\\RamMine", s: "lager", datum: "2026-05-27",
+    text: "Sysinternals RAMMap, ett verktyg för att se minnesanvändning. Inget projekt." },
+  { d: "arkiv", namn: ".claude", vag: "I:\\.claude", s: "lager", datum: "2026-08-15",
+    text: "Tom mapp. Den riktiga Claude-konfigurationen ligger under din användarmapp på C:. Kan tas bort." },
+];
+
+const LAST = [
+  ["UnrealVaultCache", 364.5], ["Local AI · My_Models", 191], ["Pinokio", 120.4], ["download backups", 81.4],
+  ["LTX · modeller", 75], ["OBS Recordings", 42.6], ["Verkstad", 14], ["Kitbash3DCargo", 11.5],
+  ["OmbraPrimeSimulator", 5.9], ["Ombra Prime 2026", 5.4], ["ClaudeTal", 5.2],
+];
+
+const MANAD = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+function datum(iso) {
+  if (!iso) return "—";
+  const [y, m, d] = iso.split("-").map(Number);
+  return `${d} ${MANAD[m - 1]}${y !== 2026 ? " " + y : ""}`;
+}
+function esc(t) { return String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+let valdStatus = "alla";
+try { valdStatus = localStorage.getItem("projektkarta-status") || "alla"; } catch (e) {}
+
+function siffror() {
+  const antal = s => P.filter(p => p.s === s).length;
+  const rutor = [
+    [P.length, "poster"], [antal("aktiv"), "aktiva"], [antal("pausad"), "pausade"],
+    [antal("klar"), "klara eller live"], ["≈ 920 GB", "uppmätt lagring"],
+  ];
+  document.getElementById("siffror").innerHTML = rutor.map(([v, t]) =>
+    `<div class="siffra"><b>${v}</b><span class="etikett">${t}</span></div>`).join("");
+}
+
+function chips() {
+  const lista = [["alla", "Alla", P.length], ...Object.entries(STATUS).map(([k, v]) => [k, v.namn, P.filter(p => p.s === k).length])];
+  document.getElementById("chips").innerHTML = lista.map(([k, namn, n]) =>
+    `<button class="chip" type="button" id="chip-${k}" data-k="${k}" aria-pressed="${k === valdStatus}">` +
+    (k !== "alla" ? `<span class="prick" data-s="${k}" style="background:var(--statusfarg)"></span>` : "") +
+    `${namn} <span class="antal">${n}</span></button>`).join("");
+  document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
+    valdStatus = b.dataset.k;
+    try { localStorage.setItem("projektkarta-status", valdStatus); } catch (e) {}
+    document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    rita();
+  }));
+}
+
+function rad(p) {
+  const tek = (p.tek || []).map(t => `<span class="tagg">${esc(t)}</span>`).join("");
+  const filer = p.filer ? `<div class="filer">Börja i: ${p.filer.map(f => `<code>${esc(f)}</code>`).join(", ")}</div>` : "";
+  const lank = p.lank ? `<a href="${esc(p.lank)}" target="_blank" rel="noopener">${esc(p.lank.replace(/^https?:\/\//, ""))}</a>` : "";
+  const extra = [p.extra ? esc(p.extra) : "", lank].filter(Boolean).join(" · ");
+  return `<article class="rad${p.under ? " under" : ""}" data-s="${p.s}">
+    <div class="rad-topp"><h3>${esc(p.namn)}</h3><span class="status">${STATUS[p.s].namn}</span>
+      <span class="datum" title="Senast ändrad">${datum(p.datum)}</span></div>
+    <div class="vag">${esc(p.vag)}</div>
+    <p>${esc(p.text)}</p>
+    ${tek ? `<div class="taggar">${tek}</div>` : ""}
+    ${filer}
+    ${extra ? `<div class="filer">${extra}</div>` : ""}
+  </article>`;
+}
+
+function rita() {
+  const q = document.getElementById("sok").value.trim().toLowerCase();
+  const passar = p => (valdStatus === "alla" || p.s === valdStatus) &&
+    (!q || [p.namn, p.vag, p.text, ...(p.tek || [])].join(" ").toLowerCase().includes(q));
+  document.getElementById("dack").innerHTML = DACK.map(d => {
+    const rader = P.filter(p => p.d === d.id && passar(p));
+    return `<section class="dack" aria-labelledby="h-${d.id}">
+      <div class="dack-huvud"><h2 id="h-${d.id}">${esc(d.namn)}</h2><span class="etikett">${esc(d.etikett)}</span></div>
+      <p class="dack-text">${esc(d.text)}</p>
+      <div class="rader">${rader.length ? rader.map(rad).join("") : `<p class="tom">Inget här matchar filtret.</p>`}</div>
+    </section>`;
+  }).join("");
+}
+
+function last() {
+  const max = LAST[0][1];
+  document.getElementById("last").innerHTML = LAST.map(([namn, gb]) =>
+    `<div class="stapelrad"><span class="namn">${esc(namn)}</span>
+      <span class="spar"><span class="fyll" style="width:${Math.max(1.5, gb / max * 100)}%; display:block"></span></span>
+      <span class="gb">${gb.toLocaleString("sv-SE")} GB</span></div>`).join("");
+}
+
+siffror(); chips(); rita(); last();
+document.getElementById("sok").addEventListener("input", rita);
+</script>
+</body>
+</html>
