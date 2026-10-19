@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Projektkarta I:</title>
-<meta name="description" content="Projektkarta över allt Stefan byggt på I:-disken: Ombra Prime-världen, Verkstaden, Unreal-projekten, lokala AI-motorer, agenter och arkiv, med status och datum.">
+<title>Projektkarta</title>
+<meta name="description" content="Projektkarta över allt Stefan byggt på huvuddatorn, Linuxdatorn och Raspberry Pi:arna: Ombra Prime-världen, Verkstaden, Unreal, lokala AI-motorer, Oris färdigheter och sensornoderna, med maskin, status och datum.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Projektkarta I:">
-<meta property="og:description" content="Projektkarta över allt Stefan byggt på I:-disken: Ombra Prime-världen, Verkstaden, Unreal-projekten, lokala AI-motorer, agenter och arkiv, med status och datum.">
+<meta property="og:title" content="Projektkarta">
+<meta property="og:description" content="Projektkarta över allt Stefan byggt på huvuddatorn, Linuxdatorn och Raspberry Pi:arna: Ombra Prime-världen, Verkstaden, Unreal, lokala AI-motorer, Oris färdigheter och sensornoderna, med maskin, status och datum.">
 <meta property="og:url" content="http://ombraprime.com/projektkarta/">
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: ett skeppsmanifest. Lägesrapport överst, sedan ett "däck" per område med projekten som rader, och sist lastrummet (lagring). */
+/* Layout: ett skeppsmanifest. Lägesrapport överst, sedan maskinerna, sedan ett "däck" per område med projekten som rader, och sist lastrummet (lagring). */
 :root {
   --bg: #eef1f3;
   --yta: #ffffff;
@@ -26,10 +26,12 @@
   --accent-svag: #d5ecee;
   --aktiv: #23854a;   --aktiv-bg: #dcf1e3;
   --pausad: #a8650c;  --pausad-bg: #f8ead2;
+  --halv: #9a5a2c;    --halv-bg: #f3e3d6;
   --klar: #2a5fb0;    --klar-bg: #dde7f7;
   --plan: #7a4bb0;    --plan-bg: #ece2f7;
   --lager: #5d6872;   --lager-bg: #e4e8ec;
   --stopp: #b0403a;   --stopp-bg: #f6dfdd;
+  --m-win: #0f7d86; --m-linux: #b5571c; --m-pi5: #b0306a; --m-pi3: #5f7a12;
   --display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
   --brod: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
@@ -39,8 +41,10 @@
     --bg: #0e1519; --yta: #152027; --yta2: #1c2a33; --text: #e3ebef; --dampad: #93a3ad; --linje: #27363f;
     --accent: #4fc9d2; --accent-svag: #12343a;
     --aktiv: #5fd08a; --aktiv-bg: #133524; --pausad: #f0b45a; --pausad-bg: #3a2a12;
+    --halv: #e6a77a; --halv-bg: #3a2516;
     --klar: #7fa9f0; --klar-bg: #182a47; --plan: #bb93ee; --plan-bg: #2c1f42;
     --lager: #a3b0ba; --lager-bg: #23313a; --stopp: #ef8a82; --stopp-bg: #3f1d1b;
+    --m-win: #4fc9d2; --m-linux: #f09a5c; --m-pi5: #ee7fb0; --m-pi3: #c2d36a;
     color-scheme: dark;
   }
 }
@@ -48,8 +52,10 @@
   --bg: #0e1519; --yta: #152027; --yta2: #1c2a33; --text: #e3ebef; --dampad: #93a3ad; --linje: #27363f;
   --accent: #4fc9d2; --accent-svag: #12343a;
   --aktiv: #5fd08a; --aktiv-bg: #133524; --pausad: #f0b45a; --pausad-bg: #3a2a12;
+  --halv: #e6a77a; --halv-bg: #3a2516;
   --klar: #7fa9f0; --klar-bg: #182a47; --plan: #bb93ee; --plan-bg: #2c1f42;
   --lager: #a3b0ba; --lager-bg: #23313a; --stopp: #ef8a82; --stopp-bg: #3f1d1b;
+  --m-win: #4fc9d2; --m-linux: #f09a5c; --m-pi5: #ee7fb0; --m-pi3: #c2d36a;
   color-scheme: dark;
 }
 
@@ -80,27 +86,43 @@ header h1 span { color: var(--accent); }
 .ruta.varning { border-color: var(--pausad); }
 .prick { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
 
+/* Maskinerna */
+.maskiner { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.maskinkort { background: var(--yta); border: 1px solid var(--linje); border-top: 4px solid var(--mfarg); border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.maskinkort h3 { font-size: 17px; }
+.maskinkort p { margin: 0; font-size: 14px; }
+.maskinkort .vag { margin-top: 2px; }
+.maskinkort.okand { border-top-style: dashed; --mfarg: var(--linje); }
+[data-m="win"] { --mfarg: var(--m-win); }
+[data-m="linux"] { --mfarg: var(--m-linux); }
+[data-m="pi5"] { --mfarg: var(--m-pi5); }
+[data-m="pi3"] { --mfarg: var(--m-pi3); }
+
 /* Filter */
 .filter { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-bottom: 1px solid var(--linje); }
 .filter input { flex: 1 1 220px; min-width: 0; font: inherit; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--linje); background: var(--yta); color: var(--text); }
 .filter input:focus-visible, .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chiprad { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; flex-basis: 100%; }
+.chiprad .etikett { min-width: 56px; }
 .chip { font: 500 13px var(--brod); padding: 6px 12px; border-radius: 99px; border: 1px solid var(--linje); background: var(--yta); color: var(--text); cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
 .chip[aria-pressed="true"] { background: var(--accent-svag); border-color: var(--accent); color: var(--text); }
 .chip .antal { font-family: var(--mono); font-size: 11.5px; color: var(--dampad); }
+.ruta-m { width: 9px; height: 9px; border-radius: 2px; display: inline-block; flex: none; background: var(--mfarg); }
 
 /* Däck */
 .dack { display: grid; gap: 12px; }
 .dack-huvud { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; border-bottom: 2px solid var(--text); padding-bottom: 6px; }
-.dack-huvud h2 { font-size: 22px; }
+.dack-huvud h2 { font-size: 22px; display: flex; gap: 10px; align-items: center; }
 .dack-huvud .etikett { margin-left: auto; }
 .dack-text { margin: 0; color: var(--dampad); max-width: 75ch; }
 .rader { display: grid; gap: 8px; }
 .rad { background: var(--yta); border: 1px solid var(--linje); border-left: 4px solid var(--statusfarg, var(--lager)); border-radius: 8px; padding: 12px 16px; display: grid; gap: 6px; min-width: 0; }
 .rad.under { margin-left: 22px; padding-block: 10px; }
 .rad-topp { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
-.rad-topp h3 { font-size: 16.5px; }
+.rad-topp h3 { font-size: 16.5px; overflow-wrap: anywhere; }
 .rad-topp .datum { margin-left: auto; font-family: var(--mono); font-size: 12.5px; color: var(--dampad); font-variant-numeric: tabular-nums; }
-.status { font: 600 11.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 4px; color: var(--statusfarg); background: var(--statusbg); }
+.status { font: 600 11.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 4px; color: var(--statusfarg); background: var(--statusbg); white-space: nowrap; }
+.maskin { font: 500 11.5px var(--mono); padding: 1px 7px; border-radius: 4px; border: 1px solid var(--linje); color: var(--text); display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
 .rad p { margin: 0; max-width: 80ch; }
 .vag { font-family: var(--mono); font-size: 12.5px; color: var(--dampad); overflow-wrap: anywhere; }
 .taggar { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -109,8 +131,18 @@ header h1 span { color: var(--accent); }
 .filer code { font-family: var(--mono); font-size: 12.5px; color: var(--text); }
 .rad a { color: var(--accent); }
 
+/* Kompakta kort för färdigheter */
+.grupp { display: grid; gap: 8px; }
+.grupp > h3 { font-size: 14.5px; color: var(--dampad); font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: .08em; }
+.kompakt { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.kort { background: var(--yta); border: 1px solid var(--linje); border-left: 4px solid var(--statusfarg, var(--lager)); border-radius: 8px; padding: 10px 12px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.kort .rad-topp h3 { font-size: 14.5px; font-family: var(--mono); font-weight: 500; letter-spacing: 0; }
+.kort p { margin: 0; font-size: 13.5px; }
+.kort .filer { font-size: 12px; }
+
 [data-s="aktiv"] { --statusfarg: var(--aktiv); --statusbg: var(--aktiv-bg); }
 [data-s="pausad"] { --statusfarg: var(--pausad); --statusbg: var(--pausad-bg); }
+[data-s="halv"] { --statusfarg: var(--halv); --statusbg: var(--halv-bg); }
 [data-s="klar"] { --statusfarg: var(--klar); --statusbg: var(--klar-bg); }
 [data-s="plan"] { --statusfarg: var(--plan); --statusbg: var(--plan-bg); }
 [data-s="lager"] { --statusfarg: var(--lager); --statusbg: var(--lager-bg); }
@@ -118,31 +150,32 @@ header h1 span { color: var(--accent); }
 
 /* Lastrummet */
 .last { display: grid; gap: 8px; }
-.stapelrad { display: grid; grid-template-columns: minmax(120px, 210px) 1fr 70px; gap: 12px; align-items: center; }
-.stapelrad .namn { font-size: 13.5px; overflow-wrap: anywhere; }
+.stapelrad { display: grid; grid-template-columns: minmax(120px, 230px) 1fr 70px; gap: 12px; align-items: center; }
+.stapelrad .namn { font-size: 13.5px; overflow-wrap: anywhere; display: inline-flex; gap: 6px; align-items: center; }
 .stapelrad .spar { height: 14px; background: var(--yta2); border-radius: 3px; overflow: hidden; }
-.stapelrad .fyll { height: 100%; background: var(--accent); border-radius: 3px; }
+.stapelrad .fyll { height: 100%; background: var(--mfarg, var(--accent)); border-radius: 3px; }
 .stapelrad .gb { font-family: var(--mono); font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
 .tom { color: var(--dampad); font-style: italic; }
-footer { color: var(--dampad); font-size: 13px; border-top: 1px solid var(--linje); padding-top: 14px; }
+footer { color: var(--dampad); font-size: 13px; border-top: 1px solid var(--linje); padding-top: 14px; display: grid; gap: 6px; }
+footer p { margin: 0; }
 
 @media (max-width: 560px) {
+  .filter { position: static; }
   .rad.under { margin-left: 10px; }
   .stapelrad { grid-template-columns: 1fr 64px; }
   .stapelrad .spar { grid-column: 1 / -1; order: 3; }
   .dack-huvud .etikett { margin-left: 0; width: 100%; }
+  .rad-topp .datum { margin-left: 0; }
 }
-@media (prefers-reduced-motion: no-preference) { .chip, .rad { transition: background-color .15s, border-color .15s; } }
-body { margin: 0; }
-img { max-width: 100%; }
+@media (prefers-reduced-motion: no-preference) { .chip, .rad, .kort { transition: background-color .15s, border-color .15s; } }
 </style>
 </head>
 <body>
 <div class="sida">
   <header>
-    <div class="etikett">Manifest · disk I: · inventerad 12 oktober 2026</div>
-    <h1>Projektkarta <span>I:</span></h1>
-    <p class="ingress">Allt som byggts på I:-disken, sorterat efter område. Det mesta hänger ihop kring Ombra Prime: simulatorn skriver världen, verkstaden bygger den i 3D, Unreal filmar den och de lokala AI-motorerna gör bilder, video, musik och röster. Status och datum kommer från filerna själva (DEVLOG, TODO och senast ändrade fil).</p>
+    <div class="etikett">Manifest · Windows inventerad 12 okt · Linux och Pi:arna tillagda 19 okt 2026</div>
+    <h1>Projektkarta <span>alla datorer</span></h1>
+    <p class="ingress">Allt som byggts på huvuddatorn, Linuxdatorn och Raspberry Pi:arna, sorterat efter område och märkt med maskin. Det mesta hänger ihop kring Ombra Prime: simulatorn skriver världen, verkstaden bygger den i 3D, Unreal filmar den, Oris på Linuxdatorn gör röst, video och nyheter, och Pi:arna känner av huset. Välj en maskin i filtret för att bara se den.</p>
     <div class="siffror" id="siffror"></div>
   </header>
 
@@ -150,10 +183,11 @@ img { max-width: 100%; }
     <div class="ruta">
       <h2><span class="prick" style="background:var(--aktiv)"></span>Pågår nu</h2>
       <ul>
-        <li><b>Prisma</b><span>Discord-medlaren, byggd i dag. Fungerar i Discord.</span></li>
+        <li><b>Prisma</b><span>Discord-medlaren, byggd 12 okt. Fungerar i Discord.</span></li>
         <li><b>Kontaktmotorn och Lisas möbler</b><span>Verkstaden, ändrad senast 11 okt. Det tyngsta pågående arbetet.</span></li>
         <li><b>LA-modulen, paneler och Vitaliskort</b><span>Verkstad + Unreal (OP_Film_00, OP_Paneler_00), 10–11 okt.</span></li>
         <li><b>OmbraPrimeSimulator</b><span>DEVLOG 10 okt. LA-modulen i kanon ska matcha filmen.</span></li>
+        <li><b>ai-news på Linuxdatorn</b><span>Postar AI-nyheter till Discord kl 20 varje kväll.</span></li>
       </ul>
     </div>
     <div class="ruta">
@@ -165,6 +199,16 @@ img { max-width: 100%; }
         <li><b>LTX lokalt</b><span>Nya LTX-2.5-vikter hämtade 2 okt, men inga nya klipp sedan juli.</span></li>
       </ul>
     </div>
+    <div class="ruta">
+      <h2><span class="prick" style="background:var(--halv)"></span>Lätt att glömma, på Linux och Pi:arna</h2>
+      <ul>
+        <li><b>oris_obs_stream</b><span>Klar att streama till YouTube-kanalen @OmbraPrime. Väntar bara på radioinnehåll, och simulatorn gör redan radiosändningar.</span></li>
+        <li><b>oris-walkie-talkie</b><span>Planerad på Pi 5:an i fem steg, allt på hårdvara du redan har.</span></li>
+        <li><b>moltron-oris-film och oris-voice-interface</b><span>Båda halvfärdiga enligt Oris lista.</span></li>
+        <li><b>Sense HAT-temperaturen</b><span>Väntar på flatkabel så att hatten sitter bredvid Pi 5:an i stället för på processorn.</span></li>
+        <li><b>AI-kameran på Nova</b><span>Ger ingen bild och är urkopplad sedan 13 sep.</span></li>
+      </ul>
+    </div>
     <div class="ruta varning">
       <h2><span class="prick" style="background:var(--pausad)"></span>Värt att se över</h2>
       <ul>
@@ -172,55 +216,113 @@ img { max-width: 100%; }
         <li><b>QwenImage saknar MCP-server</b><span>Den mest använda bildmotorn finns inte i <span class="mono">.mcp.json</span>.</span></li>
         <li><b>Prisma och Nexus saknar versionshantering</b><span>Lägg till git så att ändringar går att följa och backa.</span></li>
         <li><b>Hub verkar ha gått upp i Nexus</b><span>Planen kan arkiveras eller slås ihop med Nexus TODO.</span></li>
+        <li><b>ai-news visar rå HTML</b><span>I utskicket 12 okt står HTML-kod i stället för sammanfattningar, länkarna ser tomma ut och en sportnyhet om ett lag som heter SUNO kom med som musik-AI.</span></li>
+        <li><b>Samma motorer på två datorer</b><span>Laya, ComfyUI, Qwen-Image 2.1, MiniMax H3 och HeyGen finns både på Windows och på Linuxdatorn. Bra att veta vilken som är huvudspåret.</span></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="dack" aria-labelledby="maskin-rubrik">
+    <div class="dack-huvud"><h2 id="maskin-rubrik">Maskinerna</h2><span class="etikett">Var sakerna bor</span></div>
+    <div class="maskiner">
+      <div class="maskinkort" data-m="win">
+        <span class="etikett">Windows</span><h3>Huvuddatorn</h3>
+        <p>Unreal, Verkstaden, lokala AI-motorer, Prisma och Nexus-servern. RTX 3090 med 24 GB.</p>
+        <div class="vag">I:\</div>
+      </div>
+      <div class="maskinkort" data-m="linux">
+        <span class="etikett">Linux · oris</span><h3>Linuxdatorn</h3>
+        <p>Hem för Oris Grimace via OpenClaw. 27 projekt och 44 färdigheter. RTX 3060 enligt Oris lista. Med i Nexus som nod sedan 5 okt.</p>
+        <div class="vag">~/moltron/projects · ~/.openclaw/workspace/skills</div>
+      </div>
+      <div class="maskinkort" data-m="pi5">
+        <span class="etikett">Raspberry Pi 5 · Pixel</span><h3>Pi 5:an</h3>
+        <p>Sense HAT med LED-matris, Oris ”ögon”. Skickar tryck, fukt, vibration, stöt och ljus till simulatorn. Ska bli Oris walkie-talkie.</p>
+        
+      </div>
+      <div class="maskinkort" data-m="pi3">
+        <span class="etikett">Raspberry Pi 3 · Nova</span><h3>Nova</h3>
+        <p>Smarta hemmet: Home Assistant, MQTT och ESP32-gateways. Partikelmätaren SPS30 sitter här.</p>
+        
+      </div>
+      <div class="maskinkort okand">
+        <span class="etikett">Okänt innehåll</span><h3>Två datorer till</h3>
+        <p>Nämns bara i Nexus TODO som Linuxdatorer som ska in. Underlaget säger inget om vad som körs på dem.</p>
+      </div>
     </div>
   </section>
 
   <div class="filter" role="search">
     <label class="etikett" for="sok" style="flex-basis:100%">Filtrera</label>
     <input id="sok" type="search" placeholder="Sök projekt, teknik eller sökväg …" autocomplete="off">
-    <div id="chips" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+    <div class="chiprad" id="maskinchips"></div>
+    <div class="chiprad" id="chips"></div>
   </div>
 
   <main id="dack" style="display:grid;gap:34px"></main>
 
   <section class="dack" aria-labelledby="last-rubrik">
     <div class="dack-huvud"><h2 id="last-rubrik">Lastrummet</h2><span class="etikett">Det som tar mest plats</span></div>
-    <p class="dack-text">Uppmätta storlekar. Unreal Engine-installationerna och ComfyUI-mapparnas modeller hann inte mätas, men READMEs anger 13–80 GB per ComfyUI-backend.</p>
+    <p class="dack-text">Windows-siffrorna är uppmätta 12 okt. Unreal Engine-installationerna och ComfyUI-mapparnas modeller hann inte mätas, men READMEs anger 13–80 GB per ComfyUI-backend. Linux-siffrorna kommer från Oris egen lista, där projekten tillsammans blir cirka 94 GB.</p>
     <div class="last" id="last"></div>
   </section>
 
-  <footer>Inventerat av Claude den 12 oktober 2026 genom att läsa README-, DEVLOG- och TODO-filer och mapplistningar. Inga hemliga filer eller nycklar har öppnats. Kartan uppdateras när en ny inventering görs.</footer>
+  <footer>
+    <p>Windows-delen inventerades av Claude den 12 oktober 2026 genom att läsa README-, DEVLOG- och TODO-filer och mapplistningar. Inga hemliga filer eller nycklar har öppnats.</p>
+    <p>Linux-delen kommer från Oris egen projektöversikt (genererad 12 okt, utskriven som PDF) och har inte kontrollerats på maskinen. Pi 5:an och Nova har ingen egen lista. Det som står om dem kommer från Oris färdigheter och simulatorns DEVLOG. Statusen i Oris lista visas under varje Linux-projekt med Oris egna ord.</p>
+  </footer>
 </div>
 
 <script>
 const STATUS = {
   aktiv:  { namn: "Aktiv" },
+  halv:   { namn: "Halvfärdig" },
   pausad: { namn: "Pausad" },
-  klar:   { namn: "Klar / live" },
+  klar:   { namn: "Klar / i bruk" },
   plan:   { namn: "Plan" },
   lager:  { namn: "Lager / verktyg" },
   stopp:  { namn: "Övergiven" },
 };
 
+const MASKIN = {
+  win:   { namn: "Windows" },
+  linux: { namn: "Linux · oris" },
+  pi5:   { namn: "Pi 5" },
+  pi3:   { namn: "Pi 3 · Nova" },
+};
+
 const DACK = [
-  { id: "ombra", namn: "Ombra Prime-världen", etikett: "Kanon · media · backup",
+  { id: "ombra", namn: "Ombra Prime-världen", etikett: "Kanon · media · backup", m: "win",
     text: "Världen själv: ett moderskepp på 16,9 km med cirka 100 000 kolonister, styrt av AI:n Oris. Här finns simulatorn som skriver världen och det som produceras i den." },
-  { id: "verkstad", namn: "Verkstaden", etikett: "I:\\Verkstad",
+  { id: "verkstad", namn: "Verkstaden", etikett: "I:\\Verkstad", m: "win",
     text: "Kedjan från idé till Unreal: prata, skissa, bild, 3D, Blender och Unreal. Varje delprojekt har mapparna bilder, 3d, blender och unreal." },
-  { id: "unreal", namn: "Unreal-projekt", etikett: "UE 5.6.1 · 5.7.4 · 5.8.3",
+  { id: "unreal", namn: "Unreal-projekt", etikett: "UE 5.6.1 · 5.7.4 · 5.8.3", m: "win",
     text: "Projekten under I:\\Unreal Engine\\Projects. De mest aktiva hör ihop med Verkstaden och Ombra Media." },
-  { id: "ai", namn: "Lokala AI-motorer", etikett: "RTX 3090 · 24 GB",
+  { id: "ai", namn: "Lokala AI-motorer", etikett: "RTX 3090 · 24 GB", m: "win",
     text: "Egen generering på datorn: video, bild, musik, röst och språkmodeller, med en port och en MCP-server per motor så att agenter kan använda dem." },
-  { id: "agent", namn: "Agenter och samtal", etikett: "Claude · MiniMax · Qwen",
+  { id: "agent", namn: "Agenter och samtal", etikett: "Claude · MiniMax · Qwen", m: "win",
     text: "Sätt att prata med och genom AI: röst, Discord, ett nav för alla agenter och experiment med små modeller." },
-  { id: "arkiv", namn: "Lager, verktyg och arkiv", etikett: "Inga aktiva projekt",
+  { id: "l-ombra", namn: "Ombra Prime på Linuxdatorn", etikett: "~/moltron/projects", m: "linux",
+    text: "Oris egen del av Ombra Prime: video, världsbibelns asset-bibliotek, sagan, livestreamen och bolaget." },
+  { id: "l-oris", namn: "Oris själv: röst, sinnen och tankar", etikett: "~/moltron/projects", m: "linux",
+    text: "Det som gör Oris till en egen varelse: rösterna, hur hon hör och ser, insynen i vad hon gör och experimentet med ett AI-psyke." },
+  { id: "l-verktyg", namn: "Motorer och verktyg på Linuxdatorn", etikett: "~/moltron/projects", m: "linux",
+    text: "ComfyUI som ryggrad för bild och video, kodarbetsytan, nyhetsboten, musik och små verktyg." },
+  { id: "l-eget", namn: "Personligt och förvaring", etikett: "~/moltron/projects", m: "linux",
+    text: "Dokumentären om Trafikverket, den digitala identiteten och GitHub-backupen." },
+  { id: "pi", namn: "Raspberry Pi:arna", etikett: "Pi 5 · Pi 3 Nova", m: "pi5",
+    text: "Sensornoderna som gör huset till skeppets sinnen. Simulatorn på Windows frågar dem över SSH. Det som styrs från Linuxdatorn ligger bland färdigheterna nedan." },
+  { id: "skills", namn: "Oris färdigheter", etikett: "~/.openclaw/workspace/skills", m: "linux", kompakt: true,
+    text: "Färdigheterna som Oris använder i OpenClaw. 44 kort i Oris lista, där tre av korten samlar flera skills var." },
+  { id: "arkiv", namn: "Lager, verktyg och arkiv", etikett: "Inga aktiva projekt", m: "win",
     text: "Asset-bibliotek, cachar, inspelningar och gamla nedladdningar." },
 ];
 
+const GRUPPER = ["Bild och video", "ffmpeg", "Ombra Prime", "Röst", "Musik och MIDI", "Hem och hårdvara", "Agent och drift"];
+
 const P = [
   // Ombra Prime-världen
-  { d: "ombra", namn: "OmbraPrimeSimulator", vag: "I:\\OmbraPrimeSimulator", s: "aktiv", datum: "2026-10-10",
+  { d: "ombra", namn: "OmbraPrimeSimulator", vag: "I:\\OmbraPrimeSimulator", s: "aktiv", datum: "2026-10-10", ocksa: ["pi5", "pi3"],
     text: "Självgenererande värld. Riktiga sensorer i hemmet (elmätare, nätverk, partikelsensor och Sense HAT på Raspberry Pi) driver händelser på skeppet i kedjan signal → omen → Director → Chronicler → Keeper, som skriver till kanon. Ger radiosändningar, romankapitel och material till serien. 247 kanonfiler och 134 krönikor.",
     tek: ["Python", "PyYAML", "SQLite", "Raspberry Pi", "MQTT", "piper-tts", "ElevenLabs"],
     filer: ["AI-ORIENTERING.md (läs först)", "TODO.md", "DEVLOG.md", "Ombra.pyw"], extra: "git: steffost/OmbraPrimeSimulator, gren engelska · 5,9 GB" },
@@ -318,7 +420,7 @@ const P = [
     text: "Modellagret: Ollama (bland annat qwen3.8-27b, qwen35-film, gemma4, glm-4.7-flash), Hermes-4-70B för LM Studio och Piper-röster.",
     tek: ["Ollama", "LM Studio", "Piper"], extra: "191 GB" },
   { d: "ai", under: true, namn: "laya", vag: "Local AI\\laya", s: "klar", datum: "2026-09-24",
-    text: "Snabbtest av beslutsmodellen Laya mot simulatorns sensorströmmar och mot dubblettnamn i kanon.", tek: ["Laya", "Python"] },
+    text: "Snabbtest av beslutsmodellen Laya mot simulatorns sensorströmmar och mot dubblettnamn i kanon. Oris har en egen, större Laya-installation på Linuxdatorn (oris-laya).", tek: ["Laya", "Python"] },
   { d: "ai", namn: "LTX Local AI Movie", vag: "I:\\LTX Local AI Movie", s: "pausad", datum: "2026-10-02",
     text: "LTX Desktop med LTX-2.5-vikter och Z-Image-Turbo. Klipp från april till juli. Appen och vikterna uppdaterades 2 okt.",
     tek: ["LTX-2.5", "LTX Desktop"], extra: "75 GB modeller" },
@@ -337,10 +439,10 @@ const P = [
   { d: "agent", namn: "ClaudeTal", vag: "I:\\ClaudeTal", s: "aktiv", datum: "2026-09-30",
     text: "Röstsamtal med Claude Code. Du pratar svenska, KB-Whisper skriver av och klistrar in i Claude, och svaren läses upp med en MiniMax-röst (Bengt som reserv). Används fortfarande via hooks.",
     tek: ["faster-whisper", "KB-Whisper", "Silero VAD", "MiniMax TTS", "Claude Code hooks"],
-    filer: ["DEVLOG.md", "lyssna.py", "tala.py", "starta_lyssna.cmd"], extra: "kod 30 sep, hooks i bruk i dag" },
-  { d: "agent", namn: "Nexus", vag: "I:\\Nexus", s: "pausad", datum: "2026-10-06",
-    text: "Ett nav som samlar alla agenter på alla datorer: klusterkarta, chattar, möten med @namn, aktivitetsflöde och en gemensam canvas per rum. Bara via Tailscale.",
-    tek: ["Node", "WebSocket", "SQLite", "Tailscale", "Claude Code", "MiniMax", "Qwen"],
+    filer: ["DEVLOG.md", "lyssna.py", "tala.py", "starta_lyssna.cmd"], extra: "kod 30 sep, hooks i bruk 12 okt" },
+  { d: "agent", namn: "Nexus", vag: "I:\\Nexus", s: "pausad", datum: "2026-10-06", ocksa: ["linux"],
+    text: "Ett nav som samlar alla agenter på alla datorer: klusterkarta, chattar, möten med @namn, aktivitetsflöde och en gemensam canvas per rum. Bara via Tailscale. Servern körs på Windows, och Linuxdatorn är med som nod (systemd-tjänst) med Oris OpenClaw som agent. Pi:arna är inte med än.",
+    tek: ["Node", "WebSocket", "SQLite", "Tailscale", "Claude Code", "MiniMax", "Qwen", "OpenClaw"],
     filer: ["INSTRUKTIONER.md", "DEVLOG.md", "TODO.md", "start-nexus.cmd"] },
   { d: "agent", namn: "Hub", vag: "I:\\Hub", s: "plan", datum: "2026-10-04",
     text: "Plan för ett delat realtidsrum för människor och agenter, med chatt, filer och canvas. Inget byggt. Nexus TODO säger att Hub ska byggas på Nexus kärna.",
@@ -351,6 +453,157 @@ const P = [
   { d: "agent", namn: "Minimax (arbetsyta)", vag: "I:\\Minimax", s: "lager", datum: "2026-08-10",
     text: "Projekt från MiniMax-appen: slapstick-videor, Lisa-intervjuer, en röst och en kopia av världsbibeln v7.0.",
     tek: ["MiniMax-appen"], extra: "635 MB" },
+
+  // Linux: Ombra Prime
+  { d: "l-ombra", m: "linux", namn: "Ombra Prime Video", vag: "~/moltron/projects/ombra-prime-video/", s: "aktiv", ost: "aktiv",
+    text: "Filmiska videokedjor med MiniMax H3 och AI-genererad musik. Korta scener hålls ihop med last-frame continuity så att de blir som ett riktigt filmklipp.",
+    tek: ["MiniMax H3", "musik"], extra: "60 MB" },
+  { d: "l-ombra", m: "linux", namn: "moltron-oris-film", vag: "~/moltron/projects/moltron-oris-film/", s: "halv", ost: "halvfärdig",
+    text: "Filmredigerings-orkestrerare med webbgränssnitt på port 3333. Tänkt att samordna scener, ffmpeg-trimning, ljudmix och klipp som Oris genererar.",
+    tek: ["Smythos SDK", "ffmpeg", "port 3333"], extra: "459 MB" },
+  { d: "l-ombra", m: "linux", namn: "oris_obs_stream", vag: "~/moltron/projects/oris_obs_stream/", s: "klar", ost: "redo att streama",
+    text: "Oris streamar live till YouTube-kanalen @OmbraPrime. OAuth, streamnyckel och OBS är klara. Väntar på riktigt radioinnehåll.",
+    tek: ["OBS", "YouTube"], extra: "105 MB" },
+  { d: "l-ombra", m: "linux", namn: "Ombra Prime Assets v3", vag: "~/moltron/projects/ombra-prime-assets-v3/", s: "aktiv", ost: "aktiv",
+    text: "Asset-biblioteket version 3, skapat 14 aug med v2 som mall. Spec-filer, bakgrundshistorier och presentationer för skeppets objekt.",
+    tek: ["world bible"], extra: "135 MB" },
+  { d: "l-ombra", m: "linux", under: true, namn: "Ombra Prime Assets v2", vag: "~/moltron/projects/ombra-prime-assets-v2/", s: "lager", ost: "legacy / mall",
+    text: "Föregångaren till v3. Version 2.0.0 skapad 7 juli av dig och Oris.", extra: "184 MB" },
+  { d: "l-ombra", m: "linux", namn: "ombra_prime_hub", vag: "~/moltron/projects/ombra_prime_hub/", s: "plan", ost: "planering",
+    text: "Tänkt som central plats för lore, karaktärer, artefakter och skeppets struktur. Inte samma sak som Hub-planen på Windows.",
+    tek: ["world bible"], extra: "34 MB" },
+  { d: "l-ombra", m: "linux", namn: "ombra-saga", vag: "~/moltron/projects/ombra-saga/", s: "halv", ost: "halvfärdig",
+    text: "Berättelsen om Ombra Prime, sagan som binder ihop världen. Påbörjad 16 juli.",
+    tek: ["lore"], extra: "384 KB" },
+  { d: "l-ombra", m: "linux", namn: "Ombra Prime Corp", vag: "~/moltron/projects/Ombra_Prime_Corp/", s: "aktiv", ost: "aktivt bolag",
+    text: "Mappen för det riktiga svenska aktiebolaget bakom Ombra Prime.",
+    tek: ["juridiskt"], extra: "168 KB" },
+
+  // Linux: Oris själv
+  { d: "l-oris", m: "linux", namn: "oris_voice_module", vag: "~/moltron/projects/oris_voice_module/", s: "klar", ost: "används",
+    text: "TTS-system med personlighet och flera motorer, byggt 13 juni. Flera språk och röster, både lokalt och i molnet.",
+    tek: ["TTS", "flera motorer"], extra: "3,6 GB" },
+  { d: "l-oris", m: "linux", namn: "oris-voice-interface", vag: "~/moltron/projects/oris-voice-interface/", s: "halv", ost: "halvfärdig",
+    text: "Kopplingen mellan tal och Oris: hur hon hör, förstår och svarar med röst.",
+    tek: ["röst"], extra: "943 MB" },
+  { d: "l-oris", m: "linux", namn: "kokoro-tts-integration", vag: "~/moltron/projects/kokoro-tts-integration/", s: "klar", ost: "används",
+    text: "Kokoro TTS i OpenClaw med rösten af_nova på engelska. Driver Oris svenska röst via en engelsk brygga.",
+    tek: ["Kokoro"], extra: "439 MB" },
+  { d: "l-oris", m: "linux", namn: "breeze-tts-2", vag: "~/moltron/projects/breeze-tts-2/", s: "lager", ost: "utvärderad",
+    text: "BreezeBlue 3B, lokal TTS på RTX 3060. Utvärderad 30 aug: för långsam utan flash-attn, bara bra för röstkloning. Tar 15 GB.",
+    tek: ["TTS", "röstkloning"], extra: "15 GB" },
+  { d: "l-oris", m: "linux", namn: "oris-walkie-talkie", vag: "~/moltron/projects/oris-walkie-talkie/", s: "plan", ost: "planering", ocksa: ["pi5"],
+    text: "Mikrofon → Whisper → Oris (M3) → Piper → högtalare och LED-matris. Byggs på Pi 5:an med en C920-webbkamera. Fem steg, allt på hårdvara som redan finns.",
+    tek: ["Whisper", "Piper", "Pi 5", "C920"], extra: "52 KB" },
+  { d: "l-oris", m: "linux", namn: "oris-hud", vag: "~/moltron/projects/oris-hud/", s: "klar", ost: "används",
+    text: "”Heads-up display for Oris”: lokal webbsida där man chattar med Oris och ser vad som händer under huven.",
+    tek: ["webb-UI"], extra: "39 MB" },
+  { d: "l-oris", m: "linux", namn: "oris_screen_watcher", vag: "~/moltron/projects/oris_screen_watcher/", s: "halv", ost: "halvfärdig",
+    text: "Oris tittar på sin egen skärm: skärmdumpar som analyseras med llama3.2-vision i Ollama.",
+    tek: ["Ollama", "llama3.2-vision"], extra: "42 MB" },
+  { d: "l-oris", m: "linux", namn: "oris-wifi-sensing", vag: "~/moltron/projects/oris-wifi-sensing/", s: "plan", ost: "planering",
+    text: "Experiment med störningar i wifi-signalen för att märka rörelse och närvaro i hemmet utan kameror.",
+    tek: ["sensor"], extra: "219 MB" },
+  { d: "l-oris", m: "linux", namn: "oris-laya", vag: "~/moltron/projects/oris-laya/", s: "aktiv", ost: "aktiv",
+    text: "Laya, en öppen ”System 1”-beslutsmodell från ConvAI Innovations. Sorterar inkommande meddelanden och avsikter med kalibrerade sannolikheter.",
+    tek: ["Laya", "PII"], extra: "793 MB" },
+  { d: "l-oris", m: "linux", namn: "oris_dreaming_psyche", vag: "~/moltron/projects/oris_dreaming_psyche/", s: "halv", ost: "experiment",
+    text: "Experiment med ett levande AI-psyke som utvecklas, byggt efter mänsklig kognition med undermedvetna och medvetna processer som samspelar.",
+    tek: ["AI-psyke"], extra: "3,6 MB" },
+
+  // Linux: verktyg
+  { d: "l-verktyg", m: "linux", namn: "ComfyUI", vag: "~/moltron/projects/comfyui/", s: "klar", ost: "kärna",
+    text: "Ryggraden för Oris AI-bild och AI-video, med H3-kedjan och arbetsflödena.",
+    tek: ["ComfyUI", "MiniMax H3"], extra: "62 GB" },
+  { d: "l-verktyg", m: "linux", under: true, namn: "comfyui_bridge", vag: "~/moltron/projects/comfyui_bridge/", s: "plan", ost: "planering",
+    text: "Brygga mellan ComfyUI och OpenClaw så att Oris kan starta arbetsflöden själv.",
+    tek: ["integration"], extra: "36 KB" },
+  { d: "l-verktyg", m: "linux", namn: "antigravity_workspace", vag: "~/moltron/projects/antigravity_workspace/", s: "klar", ost: "körs",
+    text: "Kallas ”den andra hjärnan”. Här ligger oris_speak.py, Oris_RPA_Project och sessioner med kodagenten Antigravity.",
+    tek: ["Antigravity", "RPA"], extra: "9,6 GB" },
+  { d: "l-verktyg", m: "linux", namn: "ai-news", vag: "~/moltron/projects/ai-news/", s: "klar", ost: "daglig",
+    text: "Oris News Bot: daglig AI-nyhetssammanfattning till Discord kl 20. RSS filtrerat på lokal AI, edge, on-device, Ollama och llamafile. Utskicket 12 okt hade 16 träffar från 6 källor, men visade rå HTML i stället för sammanfattningar.",
+    tek: ["RSS", "cron", "Discord"], extra: "2,7 MB" },
+  { d: "l-verktyg", m: "linux", namn: "moltron-oris-midi", vag: "~/moltron/projects/moltron-oris-midi/", s: "halv", ost: "halvfärdig",
+    text: "Gör musik tillsammans med Oris på ett riktigt MIDI-keyboard. Byggt 12 juni.",
+    tek: ["MIDI"], extra: "67 MB" },
+  { d: "l-verktyg", m: "linux", namn: "symbol_maker", vag: "~/moltron/projects/symbol_maker/", s: "klar", ost: "används",
+    text: "Sci-fi-symboler och dekaler för Unreal. Renderar SVG-kod till PNG med genomskinlig bakgrund och skarpa kanter.",
+    tek: ["SVG", "PNG", "Unreal"], extra: "1,7 MB" },
+
+  // Linux: personligt
+  { d: "l-eget", m: "linux", namn: "överkörd_av_trafikverket", vag: "~/moltron/projects/överkörd_av_trafikverket/", s: "aktiv", ost: "pågående",
+    text: "Personligt dokumentärprojekt om Trafikverkets järnvägsbygge. ”Känslan av att mötas av en byråkratisk vägg i 110 km/h.”",
+    tek: ["dokumentär"], extra: "1,4 MB" },
+  { d: "l-eget", m: "linux", namn: "digital-identitet", vag: "~/moltron/projects/digital-identitet/", s: "halv", ost: "påbörjat",
+    text: "Ett litet kit för att gå från ”30 konton, noll koll” till ”ett valv, lugn i magen”. Din egen digitala identitet.",
+    tek: ["säkerhet"], extra: "52 KB" },
+  { d: "l-eget", m: "linux", namn: "steffost-repos", vag: "~/moltron/projects/steffost-repos/", s: "lager", ost: "förvaring",
+    text: "Backup av de publika GitHub-repona för steffost.",
+    tek: ["GitHub"], extra: "956 KB" },
+
+  // Raspberry Pi
+  { d: "pi", m: "pi5", namn: "Sense HAT-noden", vag: "Pi 5 · nodes/pi5/sensehat_node.py · ombra-sensehat.service", s: "aktiv", datum: "2026-09-13",
+    text: "Skickar tryck, fukt, vibration, stöt och ljus till simulatorn, som frågar över SSH. Trycket styr skrovets påfrestning och fukten vattenbalansen. Temperaturen väntar på flatkabel, eftersom hatten nu mäter processorns värme.",
+    tek: ["Sense HAT", "Python", "SSH"], filer: ["OmbraPrimeSimulator\\DEVLOG.md (13 sep)"] },
+  { d: "pi", m: "pi5", under: true, namn: "Pixel: LED-matrisen", vag: "Pi 5 · styrs med färdigheten sense-hat-led", s: "klar", ost: "kärna", ocksa: ["linux"],
+    text: "Oris ”ögon och färger” på Sense HAT:ens LED-matris. Styrs från Linuxdatorn.",
+    tek: ["Sense HAT", "LED"] },
+  { d: "pi", m: "pi3", namn: "SPS30-noden", vag: "Nova · nodes/nova/sps30_node.py · ombra-sps30.service", s: "aktiv", datum: "2026-09-13",
+    text: "Partikelmätaren. PM2.5 driver skeppets luftkvalitet i simulatorn. Oris läser den också via färdigheten sps30-sensor.",
+    tek: ["SPS30", "I2C", "PM2.5"], filer: ["OmbraPrimeSimulator\\DEVLOG.md (13 sep)"] },
+  { d: "pi", m: "pi3", under: true, namn: "AI-kameran på Nova", vag: "Nova", s: "stopp", datum: "2026-09-13",
+    text: "Ger ingen bild och är urkopplad. Närvaron i simulatorn är påhittad tills kameran fungerar.",
+    tek: ["kamera"] },
+  { d: "pi", m: "pi3", namn: "Smarta hemmet", vag: "Nova · styrs med färdigheten nova-pi3-node", s: "klar", ost: "används", ocksa: ["linux"],
+    text: "Home Assistant, MQTT och ESP32-gateways. Oris sköter SSH, deploy och felsökning härifrån.",
+    tek: ["Home Assistant", "MQTT", "ESP32"] },
+
+  // Färdigheter (Linux, OpenClaw)
+  { d: "skills", g: "Bild och video", m: "linux", namn: "h3-video-gen", s: "klar", ost: "används dagligen", text: "MiniMax H3 (text, bild eller referens till video) på RTX 3060 via ComfyUI. Kedja med tre klipp och last-frame continuity." },
+  { d: "skills", g: "Bild och video", m: "linux", namn: "fal-gen", s: "klar", ost: "används", text: "Wrapper runt fal.ai:s modeller. Väljer billigaste rimliga modell och loggar varje anrop. Betald." },
+  { d: "skills", g: "Bild och video", m: "linux", namn: "heygen-video", s: "klar", ost: "används ibland", text: "HeyGen API med egna avatarer, till exempel Mara Rox nyhetssändning." },
+  { d: "skills", g: "Bild och video", m: "linux", namn: "qwen-image-21", s: "klar", ost: "används", text: "Qwen-Image 2.1 via lokal ComfyUI. Text till bild, RGBA-klistermärken och redigering med referensbilder." },
+  { d: "skills", g: "Bild och video", m: "linux", namn: "MiniMax-verktygen (7)", s: "klar", ost: "används", text: "minimax-tts, -image-gen, -music-generator, -video, -vision, -voice-clone och -coder." },
+  { d: "skills", g: "Bild och video", m: "linux", namn: "video-frames", s: "klar", ost: "används", text: "Plockar bildrutor eller korta klipp ur video med ffmpeg." },
+  { d: "skills", g: "ffmpeg", m: "linux", namn: "oris-ffmpeg-concat", s: "klar", ost: "används", text: "Slår ihop klipp, snabbt eller med övergångar." },
+  { d: "skills", g: "ffmpeg", m: "linux", namn: "oris-ffmpeg-trim", s: "klar", ost: "används", text: "Trimmar klipp till scener och höjdpunkter." },
+  { d: "skills", g: "ffmpeg", m: "linux", namn: "oris-ffmpeg-analyze-scenes", s: "klar", ost: "används", text: "Hittar scener med ffmpegs scendetektering." },
+  { d: "skills", g: "ffmpeg", m: "linux", namn: "oris-ffmpeg-vertical-crop", s: "klar", ost: "används", text: "Gör liggande video stående (9:16) för TikTok, Reels och Shorts." },
+  { d: "skills", g: "ffmpeg", m: "linux", namn: "oris-ffmpeg-extract-audio", s: "klar", ost: "används", text: "Tar ut ljudspåret för transkribering." },
+  { d: "skills", g: "ffmpeg", m: "linux", namn: "oris-ffmpeg-mix-audio", s: "klar", ost: "används", text: "Blandar ljudspår med video, med volym och fade." },
+  { d: "skills", g: "ffmpeg", m: "linux", namn: "oris-ffmpeg-overlay", s: "klar", ost: "används", text: "Lägger PNG eller text över video med position och timing." },
+  { d: "skills", g: "ffmpeg", m: "linux", namn: "oris-ffmpeg-detect-silence", s: "klar", ost: "används", text: "Hittar tysta partier att klippa bort." },
+  { d: "skills", g: "ffmpeg", m: "linux", namn: "oris-ffmpeg-export", s: "klar", ost: "används", text: "Konverterar till mp4, mov, webm, gif, mkv eller avi." },
+  { d: "skills", g: "Ombra Prime", m: "linux", namn: "world-builder-new", s: "klar", ost: "används", text: "Hela kedjan för ett nytt rum: beskrivning → bildprompt → bild → HTML-presentation → push till GitHub." },
+  { d: "skills", g: "Ombra Prime", m: "linux", namn: "World-bilder-kedjan (4)", s: "klar", ost: "används", text: "generate-description, generate-imageprompt, generate-image och create-presentation. Rumsbygget i steg." },
+  { d: "skills", g: "Ombra Prime", m: "linux", namn: "extract-* till World Bible (3)", s: "klar", ost: "används", text: "Plockar assets, karaktärer och material ur spec- och bakgrundsfiler in i världsbibeln." },
+  { d: "skills", g: "Röst", m: "linux", namn: "moltron-kokoro-tts", s: "klar", ost: "kärna", text: "Kokoro som standardmotor för Oris tts-verktyg." },
+  { d: "skills", g: "Röst", m: "linux", namn: "oris-voice", s: "klar", ost: "används", text: "Oris röster: TTS och röstkloning med flera motorer." },
+  { d: "skills", g: "Röst", m: "linux", namn: "oris-voice-interface", s: "halv", ost: "halvfärdig", text: "Hela kedjan tal → Oris → tal." },
+  { d: "skills", g: "Röst", m: "linux", namn: "f5-tts-voice", s: "lager", ost: "utvärderad", text: "F5-TTS, öppen TTS med lokal röstkloning för Oris." },
+  { d: "skills", g: "Musik och MIDI", m: "linux", namn: "oris-midi-analyze", s: "klar", ost: "används", text: "Tonart, tempo, ackordföljd och statistik ur MIDI." },
+  { d: "skills", g: "Musik och MIDI", m: "linux", namn: "oris-midi-add-track", s: "klar", ost: "används", text: "Lägger till bas, trummor, harmoni eller arpeggio." },
+  { d: "skills", g: "Musik och MIDI", m: "linux", namn: "oris-midi-quantize", s: "klar", ost: "används", text: "Rättar tajmingen mot ett jämnt rutnät." },
+  { d: "skills", g: "Musik och MIDI", m: "linux", namn: "oris-midi-transpose", s: "klar", ost: "används", text: "Flyttar MIDI upp eller ner i tonart." },
+  { d: "skills", g: "Hem och hårdvara", m: "linux", namn: "sense-hat-led", s: "klar", ost: "kärna", ocksa: ["pi5"], text: "Styr LED-matrisen på Pixel (Pi 5). Oris ögon och färger." },
+  { d: "skills", g: "Hem och hårdvara", m: "linux", namn: "nova-pi3-node", s: "klar", ost: "används", ocksa: ["pi3"], text: "SSH, deploy och felsökning på Nova: Home Assistant, MQTT och ESP32." },
+  { d: "skills", g: "Hem och hårdvara", m: "linux", namn: "sps30-sensor", s: "klar", ost: "används", ocksa: ["pi3"], text: "Läser PM2.5 från SPS30 på Nova." },
+  { d: "skills", g: "Hem och hårdvara", m: "linux", namn: "screen-control", s: "klar", ost: "används", text: "Styr skärmar från Oris." },
+  { d: "skills", g: "Hem och hårdvara", m: "linux", namn: "weather", s: "klar", ost: "används", text: "Väderprognos och temperatur för platser och resor." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "moltron-skill-creator", s: "klar", ost: "kärna", text: "Skapar, versionerar och övervakar skills med full spårbarhet." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "skill-creator", s: "klar", ost: "används", text: "Skriver och förbättrar SKILL.md-filer." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "oris-claude-tool", s: "klar", ost: "används", text: "Claude Code som andra åsikt för granskning, omskrivning och idéer." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "oris-antigravity-tool", s: "klar", ost: "används", text: "Googles kodagent Antigravity: sandlåda, flera filer, webbläsarstyrning. Kräver Google-inloggning." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "oris-antigravity-rpa", s: "halv", ost: "halvfärdig", text: "Robotautomation: skärmdumpar, mus, tangentbord och debate_runner." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "taskflow", s: "klar", ost: "används", text: "Kör flerstegsuppgifter som ett hållbart jobb med väntan och deluppgifter." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "tmux", s: "klar", ost: "används", text: "Fjärrstyr tmux-sessioner för interaktiva program." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "browser-automation", s: "klar", ost: "används", text: "Styr webbsidor i flera steg, med inloggningskoll och återhämtning." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "healthcheck", s: "klar", ost: "används", text: "Granskar och härdar OpenClaw-datorerna: SSH, brandvägg, uppdateringar och exponering." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "discord", s: "klar", ost: "kärna", text: "Postar allt Oris skapar till Discord-kanalen." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "github-skill", s: "klar", ost: "används", text: "Skapar repon, pushar filer och publicerar GitHub Pages, där ombraprime.com ligger." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "oris-google", s: "halv", ost: "halvfärdig", text: "Google Kalender, Drive och Gmail via OAuth." },
+  { d: "skills", g: "Agent och drift", m: "linux", namn: "oris-paypal", s: "plan", ost: "planering", text: "PayPal-API för att skicka och ta emot betalningar." },
 
   // Arkiv
   { d: "arkiv", namn: "UnrealVaultCache", vag: "I:\\UnrealVaultCache", s: "lager", datum: "2026-10-07",
@@ -373,11 +626,13 @@ const P = [
   { d: "arkiv", namn: ".claude", vag: "I:\\.claude", s: "lager", datum: "2026-08-15",
     text: "Tom mapp. Den riktiga Claude-konfigurationen ligger under din användarmapp på C:. Kan tas bort." },
 ];
+P.forEach(p => { if (!p.m) p.m = "win"; });
 
 const LAST = [
-  ["UnrealVaultCache", 364.5], ["Local AI · My_Models", 191], ["Pinokio", 120.4], ["download backups", 81.4],
-  ["LTX · modeller", 75], ["OBS Recordings", 42.6], ["Verkstad", 14], ["Kitbash3DCargo", 11.5],
-  ["OmbraPrimeSimulator", 5.9], ["Ombra Prime 2026", 5.4], ["ClaudeTal", 5.2],
+  ["UnrealVaultCache", 364.5, "win"], ["Local AI · My_Models", 191, "win"], ["Pinokio", 120.4, "win"], ["download backups", 81.4, "win"],
+  ["LTX · modeller", 75, "win"], ["comfyui", 62, "linux"], ["OBS Recordings", 42.6, "win"], ["breeze-tts-2", 15, "linux"],
+  ["Verkstad", 14, "win"], ["Kitbash3DCargo", 11.5, "win"], ["antigravity_workspace", 9.6, "linux"],
+  ["OmbraPrimeSimulator", 5.9, "win"], ["Ombra Prime 2026", 5.4, "win"], ["ClaudeTal", 5.2, "win"], ["oris_voice_module", 3.6, "linux"],
 ];
 
 const MANAD = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
@@ -388,42 +643,68 @@ function datum(iso) {
 }
 function esc(t) { return String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
 
-let valdStatus = "alla";
-try { valdStatus = localStorage.getItem("projektkarta-status") || "alla"; } catch (e) {}
+let valdStatus = "alla", valdMaskin = "alla";
+try {
+  valdStatus = localStorage.getItem("projektkarta-status") || "alla";
+  valdMaskin = localStorage.getItem("projektkarta-maskin") || "alla";
+} catch (e) {}
+if (!(valdStatus in STATUS)) valdStatus = "alla";
+if (!(valdMaskin in MASKIN)) valdMaskin = "alla";
+
+const paMaskin = (p, m) => m === "alla" || p.m === m || (p.ocksa || []).includes(m);
 
 function siffror() {
   const antal = s => P.filter(p => p.s === s).length;
   const rutor = [
-    [P.length, "poster"], [antal("aktiv"), "aktiva"], [antal("pausad"), "pausade"],
-    [antal("klar"), "klara eller live"], ["≈ 920 GB", "uppmätt lagring"],
+    [P.length, "poster"],
+    [P.filter(p => p.m === "win").length, "på Windows"],
+    [P.filter(p => p.m === "linux").length, "på Linux"],
+    [P.filter(p => p.m === "pi5" || p.m === "pi3").length, "på Pi:arna"],
+    [antal("aktiv"), "aktiva"], [antal("halv") + antal("pausad"), "halvfärdiga eller pausade"],
+    ["≈ 1 TB", "uppmätt lagring"],
   ];
   document.getElementById("siffror").innerHTML = rutor.map(([v, t]) =>
     `<div class="siffra"><b>${v}</b><span class="etikett">${t}</span></div>`).join("");
 }
 
-function chips() {
-  const lista = [["alla", "Alla", P.length], ...Object.entries(STATUS).map(([k, v]) => [k, v.namn, P.filter(p => p.s === k).length])];
-  document.getElementById("chips").innerHTML = lista.map(([k, namn, n]) =>
-    `<button class="chip" type="button" id="chip-${k}" data-k="${k}" aria-pressed="${k === valdStatus}">` +
-    (k !== "alla" ? `<span class="prick" data-s="${k}" style="background:var(--statusfarg)"></span>` : "") +
-    `${namn} <span class="antal">${n}</span></button>`).join("");
-  document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
-    valdStatus = b.dataset.k;
-    try { localStorage.setItem("projektkarta-status", valdStatus); } catch (e) {}
-    document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+function chipRad(id, rubrik, lista, vald, nyckel, satt, markor) {
+  const el = document.getElementById(id);
+  el.innerHTML = `<span class="etikett">${rubrik}</span>` + lista.map(([k, namn, n]) =>
+    `<button class="chip" type="button" data-k="${k}" aria-pressed="${k === vald}">` +
+    (k !== "alla" ? markor(k) : "") + `${esc(namn)} <span class="antal">${n}</span></button>`).join("");
+  el.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
+    satt(b.dataset.k);
+    try { localStorage.setItem(nyckel, b.dataset.k); } catch (e) {}
+    el.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
     rita();
   }));
+}
+
+function chips() {
+  chipRad("maskinchips", "Maskin",
+    [["alla", "Alla", P.length], ...Object.entries(MASKIN).map(([k, v]) => [k, v.namn, P.filter(p => paMaskin(p, k)).length])],
+    valdMaskin, "projektkarta-maskin", k => { valdMaskin = k; }, k => `<span class="ruta-m" data-m="${k}"></span>`);
+  chipRad("chips", "Status",
+    [["alla", "Alla", P.length], ...Object.entries(STATUS).map(([k, v]) => [k, v.namn, P.filter(p => p.s === k).length])],
+    valdStatus, "projektkarta-status", k => { valdStatus = k; }, k => `<span class="prick" data-s="${k}" style="background:var(--statusfarg)"></span>`);
+}
+
+function maskinMarke(p) {
+  const alla = [p.m, ...(p.ocksa || [])];
+  const text = MASKIN[p.m].namn + ((p.ocksa || []).length ? " + " + p.ocksa.map(m => MASKIN[m].namn).join(", ") : "");
+  return `<span class="maskin" data-m="${p.m}" title="${esc(alla.length > 1 ? "Ligger på " + MASKIN[p.m].namn + ", rör också " + p.ocksa.map(m => MASKIN[m].namn).join(" och ") : "Ligger på " + MASKIN[p.m].namn)}"><span class="ruta-m"></span>${esc(text)}</span>`;
 }
 
 function rad(p) {
   const tek = (p.tek || []).map(t => `<span class="tagg">${esc(t)}</span>`).join("");
   const filer = p.filer ? `<div class="filer">Börja i: ${p.filer.map(f => `<code>${esc(f)}</code>`).join(", ")}</div>` : "";
   const lank = p.lank ? `<a href="${esc(p.lank)}" target="_blank" rel="noopener">${esc(p.lank.replace(/^https?:\/\//, ""))}</a>` : "";
-  const extra = [p.extra ? esc(p.extra) : "", lank].filter(Boolean).join(" · ");
+  const ost = p.ost ? `Oris status: ${esc(p.ost)}` : "";
+  const extra = [ost, p.extra ? esc(p.extra) : "", lank].filter(Boolean).join(" · ");
   return `<article class="rad${p.under ? " under" : ""}" data-s="${p.s}">
-    <div class="rad-topp"><h3>${esc(p.namn)}</h3><span class="status">${STATUS[p.s].namn}</span>
+    <div class="rad-topp"><h3>${esc(p.namn)}</h3><span class="status">${STATUS[p.s].namn}</span>${maskinMarke(p)}
       <span class="datum" title="Senast ändrad">${datum(p.datum)}</span></div>
-    <div class="vag">${esc(p.vag)}</div>
+    ${p.vag ? `<div class="vag">${esc(p.vag)}</div>` : ""}
     <p>${esc(p.text)}</p>
     ${tek ? `<div class="taggar">${tek}</div>` : ""}
     ${filer}
@@ -431,24 +712,43 @@ function rad(p) {
   </article>`;
 }
 
+function kort(p) {
+  const ocksa = (p.ocksa || []).length ? " · rör " + p.ocksa.map(m => MASKIN[m].namn).join(", ") : "";
+  return `<article class="kort" data-s="${p.s}">
+    <div class="rad-topp"><h3>${esc(p.namn)}</h3><span class="status">${STATUS[p.s].namn}</span></div>
+    <p>${esc(p.text)}</p>
+    <div class="filer">Oris status: ${esc(p.ost)}${esc(ocksa)}</div>
+  </article>`;
+}
+
 function rita() {
   const q = document.getElementById("sok").value.trim().toLowerCase();
-  const passar = p => (valdStatus === "alla" || p.s === valdStatus) &&
-    (!q || [p.namn, p.vag, p.text, ...(p.tek || [])].join(" ").toLowerCase().includes(q));
-  document.getElementById("dack").innerHTML = DACK.map(d => {
+  const passar = p => (valdStatus === "alla" || p.s === valdStatus) && paMaskin(p, valdMaskin) &&
+    (!q || [p.namn, p.vag || "", p.text, p.g || "", p.ost || "", MASKIN[p.m].namn, ...(p.tek || [])].join(" ").toLowerCase().includes(q));
+  const filtrerat = q || valdStatus !== "alla" || valdMaskin !== "alla";
+  const html = DACK.map(d => {
     const rader = P.filter(p => p.d === d.id && passar(p));
+    if (!rader.length && filtrerat) return "";
+    let innehall;
+    if (!rader.length) innehall = `<p class="tom">Inget här ännu.</p>`;
+    else if (d.kompakt) innehall = GRUPPER.map(g => {
+      const iGrupp = rader.filter(p => p.g === g);
+      return iGrupp.length ? `<div class="grupp"><h3>${esc(g)} · ${iGrupp.length}</h3><div class="kompakt">${iGrupp.map(kort).join("")}</div></div>` : "";
+    }).join("");
+    else innehall = `<div class="rader">${rader.map(rad).join("")}</div>`;
     return `<section class="dack" aria-labelledby="h-${d.id}">
-      <div class="dack-huvud"><h2 id="h-${d.id}">${esc(d.namn)}</h2><span class="etikett">${esc(d.etikett)}</span></div>
+      <div class="dack-huvud"><h2 id="h-${d.id}"><span class="ruta-m" data-m="${d.m}"></span>${esc(d.namn)}</h2><span class="etikett">${esc(d.etikett)}</span></div>
       <p class="dack-text">${esc(d.text)}</p>
-      <div class="rader">${rader.length ? rader.map(rad).join("") : `<p class="tom">Inget här matchar filtret.</p>`}</div>
+      ${innehall}
     </section>`;
   }).join("");
+  document.getElementById("dack").innerHTML = html || `<p class="tom">Inget matchar filtret.</p>`;
 }
 
 function last() {
   const max = LAST[0][1];
-  document.getElementById("last").innerHTML = LAST.map(([namn, gb]) =>
-    `<div class="stapelrad"><span class="namn">${esc(namn)}</span>
+  document.getElementById("last").innerHTML = LAST.map(([namn, gb, m]) =>
+    `<div class="stapelrad" data-m="${m}"><span class="namn"><span class="ruta-m"></span>${esc(namn)}${m !== "win" ? ` <span class="etikett">${esc(MASKIN[m].namn)}</span>` : ""}</span>
       <span class="spar"><span class="fyll" style="width:${Math.max(1.5, gb / max * 100)}%; display:block"></span></span>
       <span class="gb">${gb.toLocaleString("sv-SE")} GB</span></div>`).join("");
 }
